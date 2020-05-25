@@ -1,0 +1,2 @@
+gene	transcript	exon_intron	uniqID
+FBgn0263563		,,,,,,,,,,,,,,,,,,,	FBgn0263563/_,,,,,,,,,,,,,,,,,,,

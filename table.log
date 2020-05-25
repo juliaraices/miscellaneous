@@ -1,0 +1,7 @@
+
+Tue May 19 17:38:58 2020
+Table for transcripts data: test.blat.sorted.besthit
+Output file: test.tablemaker.txt
+	There were 20 lines in the Transcript Table and 1 of them were printed in the output.
+		0 lines had weird introns (belonging to two different genes).
+		 lines corresponded to normal introns.

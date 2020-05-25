@@ -1,0 +1,23 @@
+# .gitignore - files git should ignore
+
+# ignore folders with expression data:
+SRR*/
+
+# ignore folders with qualities data:
+qualities/
+
+# ignore programs installed locally:
+Trimmomatic-0.36/
+Trimmomatic-0.36.zip
+blat
+
+# ignore fasta, index, blat, blast, results-in-general files:
+*.fast*
+*.blat*
+*.blast*
+*_assembly*
+*.idx
+*inputforconcat*
+Bjar_vs_Dro.test
+*sorted*
+*.temp

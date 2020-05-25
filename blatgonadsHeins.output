@@ -1,0 +1,47 @@
+cpu_bind=MASK - bigterra152, task  0  0 [262814]: mask 0x3f0000000000000000000000 set
+Loaded 19078 letters in 27 sequences
+Searched 27504 bases in 1 sequences
+cpu_bind=MASK - bigterra152, task  0  0 [262835]: mask 0x3f0000000000000000000000 set
+cpu_bind=MASK - bigterra152, task  0  0 [262856]: mask 0x3f0000000000000000000000 set
+cpu_bind=MASK - bigterra152, task  0  0 [262877]: mask 0x3f0000000000000000000000 set
+make sure your input file is sorted by Tname -k 14!sort: cannot read: .temp: No such file or directory
+just opened .temp.sorted
+rm: cannot remove '.temp': No such file or directory
+just opened FBgn0264270_FBgn0264270:16.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:15.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:12.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:11.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:10.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:9.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:8.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:7.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:6.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:26.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:4.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:3.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:2.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:1.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:25.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:21.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:20.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:19.temp.sorted
+counter 0
+just opened FBgn0264270_FBgn0264270:18.temp.sorted
+counter 0
