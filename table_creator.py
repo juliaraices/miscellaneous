@@ -1,6 +1,8 @@
 #!bin/usr/python3
+# import packages we will need to work with dataframes and all
 import sys, argparse, os
 import pandas as pd
+pd.options.mode.chained_assignment = None  # default='warn'
 from datetime import datetime
 
 # Read arguments (file names)
@@ -24,147 +26,142 @@ except FileNotFoundError or IOError:
     # exit program with erros
     sys.exit("Files are not valid.")
 
+inputz.close() # close input to prevent naming errors
 
 # open output and print header
-outputz.write("Transcript\tGene\tExonIntronSeq\tFlags\n")
+outputz.write("Transcript\tGene\tExonIntronSeq\tStarts-Ends\tFlags\n")
 
 # open log and print timestamp, input name, and output name.
-log.write("\n\n#########################\nNew usage of table_creator.py at " + str(datetime.now()) + ".\n The input used was " + str(inputz.name) + ", and the output was: " + str(outputz.name) + ".\n")
+log.write("\n\n#########################\nNew usage of table_creator.py at " + str(datetime.now()) + ".\n\t The input used was " + str(inputz.name) + ", the output was: " + str(outputz.name) + ", and the log file is " + str(log.name) + ".\n")
 
 # read input into a dataframe:
-inputz.close()
 inputz = pd.read_csv(args.blat, sep='\t', header=None)
+# give columns names to make life easier
+#columns=['0.match', '1.mismatch', '2.RepMatch', '3.Ns', '4.QGapCount', '5.QGapBases', '6.TGapCount', '7.TGapBases', '8.strand', '9.Qname[exon/intron]', '10.Qsize', '11.Qstart', '12.Qend', '13.Tname[read]', '14.Tsize', '15.Tstart', '16.Tend', '17.BlockCount', '18.BlockSizes', '19.qStarts', '20.tStarts', '21.Gene', '22.ExonIntronSeq', '23.Flags'])
+inputz.columns = ['match', 'mismatch', 'RepMatch', 'Ns', 'QGapCount', 'QGapBases', 'TGapCount', 'TGapBases', 'strand', 'Qname', 'Qsize', 'Qstart', 'Qend', 'Tname', 'Tsize', 'Tstart', 'Tend', 'BlockCount', 'BlockSizes', 'qStarts', 'tStarts']# to add: '21.Gene', '22.ExonIntronSeq', '23.Flags'
+# add columns we will fill out later with a standard value (in this case, NA = Not Available)
+inputz['Gene']="NA"
+inputz['ExonIntronSeq']="NA"
+inputz['Flags']="NA"
+inputz['Starts-Ends']="NA"
 
-# get uniq transcripts from input[:,9] -> i.e. 10th column
-UniqTranscripts = inputz[9].unique()
-ToPrint = pd.DataFrame()#columns=['match', 'mismatch', 'RepMatch', 'Ns', 'QGapCount', 'QGapBases', 'TGapCount', 'TGapBases', 'strand', 'Qname', 'Qsize', 'Qstart', 'Qend', 'Tname', 'Tsize', 'Tstart', 'Tend', 'BlockCount', 'BlockSizes', 'qStarts', 'tStarts', 'Gene', 'Items', 'Flags'])
-
+# get uniq transcripts from input[:,13] -> i.e. 14th column
+UniqTranscripts = inputz['Tname'].unique()
+# makes a new data frame to put what will be outputed
+#FinalPrint = pd.DataFrame(columns=['Tname', 'Gene', 'ExonIntronSeq', 'Starts-Ends', 'Flags'])
+FinalPrint = pd.DataFrame(columns = ['match', 'mismatch', 'RepMatch', 'Ns', 'QGapCount', 'QGapBases', 'TGapCount', 'TGapBases', 'strand', 'Qname', 'Qsize', 'Qstart', 'Qend', 'Tname', 'Tsize', 'Tstart', 'Tend', 'BlockCount', 'BlockSizes', 'qStarts', 'tStarts', 'Gene', 'ExonIntronSeq', 'Starts-Ends', 'Flags']) # initiates temporary data frame for this transcript
 # for each uniq transcript:
 for i in UniqTranscripts:
-    flag = ""
-    NewHash = pd.DataFrame()
+    flag = "" # initiate an empty flag item
+    NewHash = pd.DataFrame(columns = ['match', 'mismatch', 'RepMatch', 'Ns', 'QGapCount', 'QGapBases', 'TGapCount', 'TGapBases', 'strand', 'Qname', 'Qsize', 'Qstart', 'Qend', 'Tname', 'Tsize', 'Tstart', 'Tend', 'BlockCount', 'BlockSizes', 'qStarts', 'tStarts', 'Gene', 'ExonIntronSeq', 'Starts-Ends', 'Flags']) # initiates temporary data frame for this transcript
     # get all apearances of it in input
-    temp = inputz[inputz[9] == i]
-    temp[21] = "NA"
-    temp[22] = "NA"
+    temp = inputz[inputz['Tname'] == i] # makes a temporary variable only with the one read
+    temp.sort_values(['Tstart','Tend'], inplace=True)
     # for each instace:
     for j in range(len(temp)):
-        # get Qstart [11], Qend [12], Tname [13]
+        #get ext gene from other blat to check positions
         # check if it's an intron:
-        if "intron" in temp[13][j]:
-            log.write("\t Error: INTRON alert. "+temp[13][j]+"is an intron.\n")
-            Part1, Part2, NewItemB = temp[13][j].split(":")
-            NewItemA, Gene3 = Part2.split("_")
+        if "intron" in temp['Qname'].iloc[j]:
+            # if read has intron, make an error alert
+            log.write("\t Error: INTRON alert. The "+temp['Tname'].iloc[j]+"has the following match, "+temp['Qname'].iloc[j]+", that is an intron.\n")
+            # divide intron name, so we can see the genes and introns involoved
+            Part1, Part2, NewItemB = temp['Qname'].iloc[j].split(":")
+            NewItemA, Gene2 = Part2.split("_")
             NewItem = NewItemA+"_"+NewItemB
-            Gene1, MehIntron, Gene2 = Part1.split("_")
-            if ((Gene1 != Gene2) or (Gene1 != Gene3) or (Gene2 != Gene3)):
-                log.write("\t\t Error: Intron between different genes in "+temp[13][j]+"!!!\n")
-                if flag == "":
+            MehIntron, Gene1 = Part1.split("_")
+            if Gene1 != Gene2:
+                # if any of the named genes is different from each other
+                log.write("\t\t Error: Intron between different genes in "+temp['Qname'].iloc[j]+" for read"+temp['Tname'].iloc[j]+"!!!\n")
+                NewGenes=Gene1+"_"+Gene2
+                if flag == "": # add flag
                     flag = "z"
-                else:
-                    flag = flag+", z"
-            else:
+                elif not ("z" in flag):
+                    flag = flag+",z"
+            else: # add flag
+                NewGenes=Gene1
                 if flag == "":
                     flag = "w"
-                else:
-                    flag = flag+", w"
+                elif not "w" in flag:
+                    flag = flag+",w"
         # parse name/genes
-        else:
-            NewGenes, NewItem = temp[13][j].split(":")
-            Gene1, Gene2 = NewGenes.split("_")
-            if Gene1 != Gene2:
-                log.write("\t Error: Exon of two different genes in "+temp[13][j]+"!!!\n")
-                if flag == "":
-                    flag = "y"
-                else:
-                    flag = flag+", y"
-        temp[21][j] = Gene1
-        temp[22][j] = NewItem
+        else: # if read has no intron ^^
+            NewGenes, NewItem = temp['Qname'].iloc[j].split(":")
+        if NewHash.empty: # if the new hash is empty we add things the easiest way ;)
+            NewHash = NewHash.append(temp.iloc[j])
+            NewHash['Gene'].iloc[0] = NewGenes
+            NewHash['ExonIntronSeq'].iloc[0] = NewItem
+        elif not NewGenes in NewHash['Gene'].iloc[0]: # if the new hash is not empty and the gene we found is not in the new hash gene name
+            if "_" in NewGenes:
+                NewGenes2 = NewGenes.split("_")
+                for k in range(len(NewGenes2)):
+                    if not NewGenes2[k] in NewHash['Gene'].iloc[0]:
+                        NewHash['Gene'].iloc[0] = NewHash['Gene'].iloc[0]+"_"+NewGenes2[k]
+            else:
+                NewHash['Gene'].iloc[0] = NewHash['Gene'].iloc[0]+"_"+NewGenes
+            if flag == "":
+                flag = "y"
+            elif not "y" in flag:
+                flag = flag+",y"
+            #NewHash['ExonIntronSeq'].iloc[0] = NewHash['ExonIntronSeq'].iloc[0]+","+NewItem
+        #else:
+            #NewHash['ExonIntronSeq'].iloc[0] = NewHash['ExonIntronSeq'].iloc[0]+","+NewItem
         # if Qstart > Qend
-        if (temp[11][j] > temp[12][j]):
-            problematic1 = temp[11][j]
-            problematic2 = temp[12][j]
-            temp[11][j] = problematic2
-            temp[12][j] = problematic1
-            log.write("\t Error: "+temp[13][j]+" had start bigger than end.\n")
+        if (temp['Tstart'].iloc[j] > temp['Tend'].iloc[j]):
+            problematic1 = temp['Tstart'].iloc[j]
+            problematic2 = temp['Tend'].iloc[j]
+            temp['Tstart'].iloc[j] = problematic2
+            temp['Tend'].iloc[j] = problematic1
+            log.write("\t Error: "+temp['Qname'].iloc[j]+" had start bigger than end in the "+temp['Tname'].iloc[j]+".\n")
             if flag == "":
                 flag = "a"
-            else:
-                flag = flag+", a"
+            elif not "a" in flag:
+                flag = flag+",a"
             # Qstart and Qend are switched
-        # for item in InstanceHash.Tname:
-        for k in range(len(NewHash)):
-            #HashGene = NewHash[13][k].split("_")
-            # if new Tname != InstanceHash[item].Tname:
-            if (temp[21][j] != NewHash[21][k]):#Gene1 != HashGene[0]):
-                log.write("\t Error: "+temp[13][j]+" and "+NewHash[13][k]+" are from different genes.\n")
-                # log error
-                # print both Tnames to log
-                if flag == "":
-                    flag = "x"
-                else:
-                    flag = flag+", x"
-                # add flag
-            # possibiblities where new is inside old sequences:
-            if (((temp[11][j] > NewHash[11][k]) and (temp[12][j] <= NewHash[12][k])) or ((temp[11][j] == NewHash[11][k] ) and (temp[12][j] < NewHash[12][k]))):
-                # write error to log
-                log.write("\t Error: "+temp[13][j]+" is contained inside "+NewHash[13][k]+".\n")
-                # add flag
-                if flag == "":
-                    flag = "b"
-                else:
-                    flag = flag+", b"
-            # when sequences start and end in the same places:
-            elif ((temp[11][j] == NewHash[11][k]) and (temp[12][j] == NewHash[12][k])):
-                # write error to log:
-                log.write("\t Error: "+temp[13][j]+" and "+NewHash[13][k]+" are probably the same.\n")
-                # add flag
-                if flag == "":
-                    flag = "c"
-                else:
-                    flag = flag+", c"
-            # when new is partially inside old:
-            elif (((temp[11][j] < NewHash[11][k]) and ((temp[12][j] < NewHash[12][k]) and (temp[12][j] > NewHash[11][k]))) or ((temp[12][j] > NewHash[12][k]) and ((temp[11][j] > NewHash[11][k]) and (temp[11][j] < NewHash[12][k])))):
-                # write error to log:
-                log.write("\t Error: "+temp[13][j]+" is partially inside "+NewHash[13][k]+".\n")
-                # add flag
-                if flag == "":
-                    flag = "d"
-                else:
-                    flag = flag+", d"
-            # when old is inside new
-            elif (((temp[11][j] == NewHash[11][k]) and (temp[12][j] > NewHash[12][k])) or ((temp[11][j] < NewHash[11][k]) and (temp[12][j] >= NewHash[12][k]))):
-                # write error to log:
-                log.write("\t Error: "+temp[13][j]+" contains "+NewHash[13][k]+".\n")
-                # add flag
-                if flag == "":
-                    flag = "e"
-                else:
-                    flag = flag+", e"
-        # add new instance to InstanceHash
-        NewHash = pd.concat([NewHash, pd.DataFrame(temp.loc[[j]])])
-    # sort InstanceHash according to Qend
-    # sort InstanceHash according to Qstart
-    NewHash.sort_values(by=[11,12], inplace=True)
-    NewHash[23]=flag
-    # make PrintingHash NewItem with Qname, Tname, and flags
-    # for item in InstanceHash:
-    ToPrint = pd.concat([ToPrint, pd.DataFrame(NewHash.loc[[0]])])
-    ToPrint[22][len(ToPrint)-1] = ""
-    for i in range(len(NewHash)):
-        if ToPrint[22][len(ToPrint)-1] == "":
-            ToPrint[22][len(ToPrint)-1] = NewHash[22][i]
+        # possibiblities where new is inside old sequences:
+        # get starts and ends of previous 
+        SE = str(temp['Qstart'].iloc[j])+"-"+str(temp['Qend'].iloc[j])
+        if NewHash['Starts-Ends'].iloc[0] == "NA":
+            NewHash['Starts-Ends'].iloc[0] = SE
+            NewHash['ExonIntronSeq'].iloc[0] = NewItem
         else:
-            ToPrint[22][len(ToPrint)-1] = ToPrint[22][len(ToPrint)-1]+","+NewHash[22][i]
-        # PrintingHash[NewItem].EIList = PrintingHash[NewItem].EIList + InstanceHash[item].ExonIntron
-# print PrintingHash to output
-FinalPrint = ToPrint.loc[:,[9,21,22,23]]#rint[9],ToPrint[21],ToPrint[22],[ToPrint[23]],[ToPrint[9]+ToPrint[21]+ToPrint[22]])
-FinalPrint.to_string(outputz, header=False, index=False)
-#for i in range(len(ToPrint)):
-#    outputz.write(ToPrint.loc[[i]])
+            eita = "n"
+            SplintersSE = NewHash['Starts-Ends'].iloc[0].split(",")
+            SplintersI = NewHash['ExonIntronSeq'].iloc[0].split(",")
+            for m in range(len(SplintersSE)):
+                if (SplintersSE[m]==SE) and (SplintersI[m]==NewItem):
+                    log.write("Same match, ("+str(NewItem)+") appeared more than once for read "+temp['Tname'].iloc[j]+" in the same place ("+SE+").\n")
+                    eita="y"
+                    if flag == "":
+                        flag = "b"
+                    elif not "b" in flag:
+                        flag = flag+",b"
+                elif SplintersI[m]==NewItem:
+                    log.write("Same match, ("+str(NewItem)+") appeared more than once for read "+temp['Tname'].iloc[j]+" in different places ("+SE+", and "+SplintersSE[m]+").\n")
+                    eita="y"
+                    if flag == "":
+                        flag = "c"
+                    elif not "c" in flag:
+                        flag = flag+",c"
+                elif SplintersSE[m]==SE:
+                    log.write("Different matches, ("+str(NewItem)+" and "+str(SplintersI[m])+") appeared in the same place ("+SE+") for read "+temp['Tname'].iloc[j]+".\n")
+                    eita="y"
+                    if flag == "":
+                        flag = "d"
+                    elif not "d" in flag:
+                        flag = flag+",d"
+            if eita != "y":
+                NewHash['Starts-Ends'].iloc[0] = NewHash['Starts-Ends'].iloc[0]+","+SE
+                NewHash['ExonIntronSeq'].iloc[0] = NewHash['ExonIntronSeq'].iloc[0]+","+str(NewItem)
+    NewHash['Flags'].iloc[0]=flag
+    # make PrintingHash NewItem with Qname, Tname, and flags
+    FinalPrint = FinalPrint.append(NewHash, ignore_index=True)
+#FinalPrint.to_string(outputz, header=True, index=False)
+for i in range(len(FinalPrint)):
+    outputz.write(str(FinalPrint['Tname'].iloc[i])+"\t"+str(FinalPrint['Gene'].iloc[i])+"\t"+str(FinalPrint['ExonIntronSeq'].iloc[i])+"\t"+str(FinalPrint['Starts-Ends'].iloc[i])+"\t"+str(FinalPrint['Flags'].iloc[i])+"\n")
 # close output
 outputz.close()
 # print number of errors, number of reads, number of flags reported, and flags itself to log
+log.write("\n\n")
 # close log
 log.close()
 # end

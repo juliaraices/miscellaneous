@@ -5,3 +5,10 @@ Output file: test.tablemaker.txt
 	There were 20 lines in the Transcript Table and 1 of them were printed in the output.
 		0 lines had weird introns (belonging to two different genes).
 		 lines corresponded to normal introns.
+
+Mon Jun 22 17:29:25 2020
+Table for transcripts data: test.blat
+Output file: test.out
+	There were 20 lines in the Transcript Table and 1 of them were printed in the output.
+		0 lines had weird introns (belonging to two different genes).
+		 lines corresponded to normal introns.

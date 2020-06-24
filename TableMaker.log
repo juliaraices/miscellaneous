@@ -2007,3 +2007,800 @@ New usage of table_creator.py at 2020-05-20 17:52:01.790392.
 	 Error: FBgn0264270_FBgn0264270:1 contains FBgn0264270_FBgn0264270:3.
 	 Error: FBgn0264270_FBgn0264270:1 contains FBgn0264270_FBgn0264270:2.
 	 Error: FBgn0264270_FBgn0264270:18 is contained inside FBgn0264270_FBgn0264270:19.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 14:04:10.566724.
+ The input used was testSXL.blat.sorted.nonredundant, and the output was: testSXL.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 14:04:11.606652.
+ The input used was test2SXL.blat.sorted.nonredundant, and the output was: test2SXL.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 14:04:12.547072.
+ The input used was testDSX.blat.sorted.nonredundant, and the output was: testDSX.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 14:04:13.478994.
+ The input used was test2DSX.blat.sorted.nonredundant, and the output was: test2DSX.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 14:04:14.389691.
+ The input used was testHER.blat.sorted.nonredundant, and the output was: testHER.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 14:04:15.277990.
+ The input used was test2HER.blat.sorted.nonredundant, and the output was: test2HER.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 19:34:07.701903.
+ The input used was testSXL.blat.sorted.nonredundant, and the output was: testSXL.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 19:34:08.637739.
+ The input used was test2SXL.blat.sorted.nonredundant, and the output was: test2SXL.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 19:34:09.532766.
+ The input used was testDSX.blat.sorted.nonredundant, and the output was: testDSX.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 19:34:10.438925.
+ The input used was test2DSX.blat.sorted.nonredundant, and the output was: test2DSX.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 19:34:11.319692.
+ The input used was testHER.blat.sorted.nonredundant, and the output was: testHER.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-25 19:34:12.168035.
+ The input used was test2HER.blat.sorted.nonredundant, and the output was: test2HER.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-26 10:21:11.340895.
+ The input used was testSXL.blat.sorted.nonredundant, and the output was: testSXL.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-26 10:21:12.278903.
+ The input used was test2SXL.blat.sorted.nonredundant, and the output was: test2SXL.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-26 10:21:13.195181.
+ The input used was testDSX.blat.sorted.nonredundant, and the output was: testDSX.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-26 10:21:14.088237.
+ The input used was test2DSX.blat.sorted.nonredundant, and the output was: test2DSX.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-26 10:21:14.998778.
+ The input used was testHER.blat.sorted.nonredundant, and the output was: testHER.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-26 10:21:15.911454.
+ The input used was test2HER.blat.sorted.nonredundant, and the output was: test2HER.table.
+
+
+#########################
+New usage of table_creator.py at 2020-05-26 12:49:08.890656.
+ The input used was test_SXL.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-05-26 13:06:46.886428.
+ The input used was test_SXL.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-22 17:17:37.833094.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-22 17:29:45.020446.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-22 17:37:31.820629.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-22 17:41:10.133641.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 07:52:47.322553.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 07:52:56.006159.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 07:55:26.484064.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 08:15:45.501082.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 08:17:01.298682.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 08:18:01.638388.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 08:30:37.889566.
+ The input used was test.blat, and the output was: IntronExonTable.output.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 09:25:41.119206.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:14:29.146542.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:15:18.748279.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:16:36.534317.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:17:43.328986.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:21:07.460124.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:22:14.343042.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:22:52.732841.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:23:34.651599.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:27:57.466835.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:28:48.058497.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:40:05.184491.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:40:40.142385.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:41:04.218147.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:42:55.927572.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 10:52:22.322078.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 12:54:06.566172.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 12:54:46.957403.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 12:55:50.991802.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 12:59:11.201929.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:00:49.144055.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:04:33.713826.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:07:20.776564.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:09:17.903399.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:10:06.547751.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:10:53.013523.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:11:21.316399.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:13:54.546950.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:17:16.918374.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:18:19.524965.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:20:01.289498.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:21:53.270985.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:32:21.251059.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:33:46.132307.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:35:00.076139.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:36:09.927481.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:37:18.122206.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:37:53.686649.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:38:55.631359.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:39:54.458722.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:40:31.785659.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:40:37.818716.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:41:34.222763.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:42:19.562804.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:42:46.809018.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:42:59.050165.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:43:53.561377.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:44:40.274146.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:44:58.122464.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:45:58.689783.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:47:14.029601.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:47:25.259720.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:47:48.623783.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:48:37.953668.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:52:01.877568.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 13:52:22.757678.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:06:11.289444.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:08:38.709421.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:09:18.120458.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:10:57.804322.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:11:41.032767.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:11:52.989224.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:14:38.244969.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:20:33.456680.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:23:09.185035.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:31:24.163548.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:36:27.255281.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:37:46.163415.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:39:14.746115.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 17:39:51.267792.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 21:05:45.658275.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 21:06:30.134981.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 21:10:03.504398.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 21:11:55.520585.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 21:55:47.634043.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 22:03:16.593488.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 22:05:16.321209.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 22:07:13.426563.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 22:08:58.742802.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-23 22:10:01.594759.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 07:32:38.261244.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 07:33:04.843332.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:02:36.942541.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:04:52.101233.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:20:14.649627.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:24:47.458660.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:27:41.247187.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:32:59.130196.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:33:44.030452.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:34:53.994008.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:35:35.609934.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:36:37.644436.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:37:54.583597.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:38:02.084128.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:39:14.837169.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:40:05.810736.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:40:33.437233.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 09:41:13.964252.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 10:23:30.594139.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 10:27:07.362469.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:1_FBgn0000289:4for readm54067_190614_055000/56426805/ccs!!!
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 10:27:40.177754.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:1_FBgn0000289:4for readm54067_190614_055000/56426805/ccs!!!
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:1_FBgn0000289:4for readm54067_190614_055000/56426805/ccs!!!
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:2_FBgn0000289:5for readm54067_190614_055000/56426805/ccs!!!
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:2_FBgn0000289:5for readm54067_190614_055000/56426805/ccs!!!
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 10:30:16.299277.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:1_FBgn0000289:4 for readm54067_190614_055000/56426805/ccs!!!
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:1_FBgn0000289:4 for readm54067_190614_055000/56426805/ccs!!!
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:2_FBgn0000289:5 for readm54067_190614_055000/56426805/ccs!!!
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+		 Error: Intron between different genes in intron_FBgn0000289:2_FBgn0000289:5 for readm54067_190614_055000/56426805/ccs!!!
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 10:31:09.535252.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 11:18:33.937939.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 11:20:38.041635.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+Same match, (3) appeared more than once for read m54067_190614_055000/56426805/ccs in the same place (28-852).
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 11:26:10.392037.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+Same match, (3) appeared more than once for read m54067_190614_055000/56426805/ccs in the same place (28-852).
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+Different matches, (5 and 4) appeared in the same place (40-2026) for read m54067_190614_055000/56427011/ccs.
+Same match, (1) appeared more than once for read m54067_190614_055000/56427022/ccs in the same place (37-1149).
+Same match, (1) appeared more than once for read m54067_190614_055000/56427022/ccs in different places (47-1149, and 37-1149).
+Same match, (1) appeared more than once for read m54067_190614_055000/56427022/ccs in different places (200-1149, and 37-1149).
+Same match, (1) appeared more than once for read m54067_190614_055000/56427022/ccs in different places (200-1149, and 37-1149).
+Same match, (1) appeared more than once for read m54067_190614_055000/56427022/ccs in different places (200-2072, and 37-1149).
+Same match, (1) appeared more than once for read m54067_190614_055000/56427022/ccs in different places (582-977, and 37-1149).
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 11:30:36.314756.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 11:31:28.742568.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 11:35:49.526679.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 11:36:58.525710.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 11:37:24.820062.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+
+
+
+
+#########################
+New usage of table_creator.py at 2020-06-24 15:19:17.008302.
+	 The input used was test.blat, the output was: IntronExonTable.output, and the log file is TableMaker.log.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:1_FBgn0000289:4, that is an intron.
+	 Error: INTRON alert. The m54067_190614_055000/56426805/ccshas the following match, intron_FBgn0000289:2_FBgn0000289:5, that is an intron.
+Different matches, (12 and 6) appeared in the same place (0-137) for read m54067_190614_055000/56426805/ccs.
+
+

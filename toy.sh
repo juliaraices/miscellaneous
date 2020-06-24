@@ -2,6 +2,7 @@
 #
 #we first start by giving the cluster a few options on the job: which queue to put it into (nick), and the name we are giving it
 #SBATCH --partition=defaultp
+#SBATCH --reservation=vicosgrp_28
 #SBATCH --job-name=AHHHH
 #SBATCH --output=AHHH_output
 #
@@ -34,4 +35,4 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 #run commands on SLURM's srun
 
-srun --cpu_bind=verbose
+srun --cpu_bind=verbose --cpus_per_task=2

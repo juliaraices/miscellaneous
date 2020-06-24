@@ -1,2 +1,5 @@
-#only one thing: lol
+#only a couple of things: lol
 test*
+*.swp
+*.log
+

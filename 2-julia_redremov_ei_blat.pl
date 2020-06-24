@@ -13,7 +13,11 @@
 print "make sure your input file is sorted by Tname -k 14!\n";
 my $input = $ARGV[0];
 
-open (INPUT, "$input"); 
+system "sed 's|/|_|g' $input >new_input.temp";
+
+my $new_input = "new_input.temp";
+
+open (INPUT, "$new_input"); 
 open (RESULTS, ">$input.nonredundant"); #overwrite previous results
 
 $name0="lalala";
