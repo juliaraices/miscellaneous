@@ -1,6 +1,8 @@
 #!bin/usr/python3
 # import packages we will need to work with dataframes and all
 import sys, argparse, os
+from Bio import SeqIO
+import numpy as np
 import pandas as pd
 pd.options.mode.chained_assignment = None  # default='warn'
 from datetime import datetime
@@ -33,7 +35,11 @@ outputz.write("Transcript\tGene\tExonIntronSeq\tStarts-Ends\tFlags\n")
 
 # open log and print timestamp, input name, and output name.
 log.write("\n\n#########################\nNew usage of table_creator.py at " + str(datetime.now()) + ".\n\t The input used was " + str(inputz.name) + ", the output was: " + str(outputz.name) + ", and the log file is " + str(log.name) + ".\n")
-
+EIfasta={}
+for seq_record in SeqIO.parse("/nfs/scistore03/vicosgrp/jraices/melanogaster/dmel_exon_intron.fasta", "fasta"):
+        acessorary=seq_record.description.split("; ")
+        location = [s for s in acessorary if "loc" in s]
+        EIfasta[seq_record.id]=str(location).split("=")[1]
 # read input into a dataframe:
 inputz = pd.read_csv(args.blat, sep='\t', header=None)
 # give columns names to make life easier
@@ -107,19 +113,19 @@ for i in UniqTranscripts:
             #NewHash['ExonIntronSeq'].iloc[0] = NewHash['ExonIntronSeq'].iloc[0]+","+NewItem
         # if Qstart > Qend
         if (temp['Tstart'].iloc[j] > temp['Tend'].iloc[j]):
-            problematic1 = temp['Tstart'].iloc[j]
-            problematic2 = temp['Tend'].iloc[j]
-            temp['Tstart'].iloc[j] = problematic2
-            temp['Tend'].iloc[j] = problematic1
             log.write("\t Error: "+temp['Qname'].iloc[j]+" had start bigger than end in the "+temp['Tname'].iloc[j]+".\n")
             if flag == "":
                 flag = "a"
             elif not "a" in flag:
                 flag = flag+",a"
-            # Qstart and Qend are switched
         # possibiblities where new is inside old sequences:
         # get starts and ends of previous 
-        SE = str(temp['Qstart'].iloc[j])+"-"+str(temp['Qend'].iloc[j])
+        thisOne = EIfasta[temp['Qname'].iloc[j]]
+        StartChr, EndChr = thisOne.split(":")[1].split("..")
+        TrueStart = int(''.join(s for s in StartChr if s.isdigit()))+int(temp['Qstart'].iloc[j])
+        TrueEnd = int(''.join(s for s in EndChr if s.isdigit()))+int(temp['Qend'].iloc[j])
+        SE = str(TrueStart)+"-"+str(TrueEnd)
+   #     print(SE+"\n")
         if NewHash['Starts-Ends'].iloc[0] == "NA":
             NewHash['Starts-Ends'].iloc[0] = SE
             NewHash['ExonIntronSeq'].iloc[0] = NewItem
@@ -152,6 +158,62 @@ for i in UniqTranscripts:
             if eita != "y":
                 NewHash['Starts-Ends'].iloc[0] = NewHash['Starts-Ends'].iloc[0]+","+SE
                 NewHash['ExonIntronSeq'].iloc[0] = NewHash['ExonIntronSeq'].iloc[0]+","+str(NewItem)
+    StarkEnds=NewHash['Starts-Ends'].iloc[0].split(",")
+    StarkItems=NewHash['ExonIntronSeq'].iloc[0].split(",")
+    Sansa = pd.DataFrame()#columns=['start', 'end', 'length', 'item'])
+    for p in range(len(StarkEnds)):
+        inicio, fim = StarkEnds[p].split("-")
+        tamanho = int(fim) - int(inicio)
+        temporery = [inicio, fim, tamanho, StarkItems[p]]
+        Sansa = Sansa.append([temporery], ignore_index=True)
+    Sansa.columns=['start', 'end', 'length', 'item']
+    sansadrop = list()
+    for o in range(len(Sansa)):
+        Arya = Sansa.drop(Sansa.index[o])
+        for m in range(len(Arya)):
+            if ((Arya['start'].iloc[m]>=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['end'].iloc[o])):
+                # Arya smaller than Sansa and contained in it
+                # Arya and sansa cover exactly the same area
+                #sansadrop = sansadrop
+                eita = 1+10
+            elif ((Sansa['start'].iloc[o]>=Arya['start'].iloc[m]) and (Sansa['end'].iloc[o]<=Arya['end'].iloc[m])):
+                # Sansa smaller than Arya and contained in it
+                if (not o in sansadrop) and (not m in sansadrop) and Sansa['length'].iloc[o] >= 100:
+                    sansadrop.append(o)
+            elif (Arya['start'].iloc[m]>=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]>=Sansa['end'].iloc[o]):
+                # Arya starts after Sansa starts, and ends after Sansa ends.
+                # Arya starts after Sansa start, and ends where sansa ends.
+                # Arya starts where Sansa starts, and ends where sansa ends.
+                overlap = int(Sansa['end'].iloc[o]) - int(Arya['start'].iloc[m])
+                if (not o in sansadrop) and (not m in sansadrop) and overlap>=100:
+                    sansadrop.append(o)
+            elif (Arya['start'].iloc[m]<=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['end'].iloc[o]):
+                # Arya starts where sansa starts, and ends after sansa ends.
+                # Arya starts before Sansa starts, and ends before Sansa ends
+                # Arya starts before Sansa starts, and ends where Sansa ends.
+                # Arya starts where Sansa starts, and ends before Sansa ends.
+                # calculate overlap:
+                overlap = int(Arya['end'].iloc[m]) - int(Sansa['start'].iloc[o])
+                if (not o in sansadrop) and (not m in sansadrop) and overlap>=100:
+                    sansadrop.append(o)
+            elif ((Arya['start'].iloc[m]<Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['start'].iloc[o]) or (Arya['start'].iloc[m]>=Sansa['end'].iloc[o] and Arya['end'].iloc[m]>Sansa['end'].iloc[o])):
+                # Arya starts and ends before sansa starts
+                # Arya starts and ends after sansa ends
+                #ansadrop=sansadrop
+                eita = 1+13
+            else:
+                print("Something has gone terribly wrong!!! <o>"+str(Arya['start'].iloc[m])+" "+str(Arya['end'].iloc[m])+"\t"+str(Sansa['start'].iloc[o])+" "+str(Sansa['end'].iloc[o])+"\n")
+    print(sansadrop)
+    print(Sansa)
+    if sansadrop!=[]:
+        Sansa = Sansa.drop(Sansa.index[sansadrop])
+    print(Sansa)
+    StarkSE = pd.DataFrame(columns=['SE'])
+    for q in range(len(Sansa)):
+        NewSE = str(Sansa['start'].iloc[q])+"-"+str(Sansa['end'].iloc[q])
+        StarkSE = StarkSE.append([NewSE])
+    NewHash['Starts-Ends'] = ",".join(str(StarkSE))
+    NewHash['ExonIntronSeq'] = ",".join(str(Sansa['item']))
     NewHash['Flags'].iloc[0]=flag
     # make PrintingHash NewItem with Qname, Tname, and flags
     FinalPrint = FinalPrint.append(NewHash, ignore_index=True)
