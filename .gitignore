@@ -3,4 +3,11 @@ test*
 *.swp
 *.log
 *.output
+*.png
+1-*.pl
+2-*.pl
+3-*.pl
+best*.pl
+BioGraPy/*
+*redrem*
 
