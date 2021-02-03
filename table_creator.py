@@ -12,7 +12,7 @@ from datetime import datetime # allows us to add the date/time to the code/outpu
 parser = argparse.ArgumentParser(description='Program to create a table with the list of introns/exons that comprise different reads.') # sets the description for the full program, in case it's called with no arguments
 parser.add_argument("--blat", required=True, type=str, help='Output from blat of reads against introns and exons') # states a required argument, a blat file, and has a helper message in case you don't provide it, or ask for help
 parser.add_argument("--query", required=True, type=str, help='Reads/data used in blat against introns and exons') # states a required argument, a fasta file, and has a helper message in case you don't provide it, or ask for help
-parser.add_argument("--fasta", default="/nfs/scistore03/vicosgrp/jraices/melanogaster/dmel_exon_intron.fasta", type=str, help='Fasta file used in blat. Default is the file with exons and introns in Drosophila melanogaster') # sets the default fasta file to be used in case it is not provided by the user
+parser.add_argument("--db", default="/nfs/scistore03/vicosgrp/jraices/melanogaster/dmel_exon_intron.fasta", type=str, help='Fasta file used in blat. Default is the file with exons and introns in Drosophila melanogaster') # sets the default fasta file to be used in case it is not provided by the user
 parser.add_argument("--output", default="IntronExonTable.output", help="Desired name for the output file. Default is IntronExonTable.output", type=str) # sets the output file name if none is given. If there's already a file with that name, it will be overwritten.
 parser.add_argument("--log", default="TableMaker.log", help="Desired name for the log file. Default is TableMaker.log", type=str) # sets the log file name if none is given. The new log will be appended to the end of the given file.
 
@@ -23,7 +23,7 @@ try: # makes sure you can open all the files
     log = open(args.log, "a") # "a" will append to the end of the file
     # open input
     inputz = open(args.blat, "r") # opens file as read only
-    fastaz = open(args.fasta, "r") # opens file as read only
+    fastaz = open(args.db, "r") # opens file as read only
     fastaz_query = open(args.query, "r") # opens file as read only
     outputz = open(args.output, "w") # "w" will overwrite file
 # If files do not open:
@@ -176,68 +176,68 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
             if eita != "y": # if flag is "y"
                 TranscriptData['Starts-Ends'].iloc[0] = str(TranscriptData['Starts-Ends'].iloc[0])+","+str(SE) #add start-end to transcript data hash
                 TranscriptData['ExonIntronSeq'].iloc[0] = str(TranscriptData['ExonIntronSeq'].iloc[0])+","+str(EIitem) # add newitems to transcript data hash
-    StarkEnds=TranscriptData['Starts-Ends'].iloc[0].split(",") # split all stasts and ends in hash item
-    StarkItems=TranscriptData['ExonIntronSeq'].iloc[0].split(",") # split all introns/exons in the hash item
-    Sansa = pd.DataFrame()#columns=['start', 'end', 'length', 'item']) # make empty dataframe
-    for p in range(len(StarkEnds)): # for each item in StarkEnds
-        inicio, fim = StarkEnds[p].split("-") # gets the values from start and end, to calculate size
-        tamanho = int(fim) - int(inicio) # calculates the sizer of the item
-        InputSubsetorery = [inicio, fim, tamanho, StarkItems[p]] # make snew hash with data collected before
-        Sansa = Sansa.append([InputSubsetorery], ignore_index=True) # add to hahs
-    Sansa.columns=['start', 'end', 'length', 'item'] # set the names of the columns in sansa
-    sansadrop = list() # create an empty list
-    for o in range(len(Sansa)): # for each item in sansa
-        Arya = Sansa.drop(Sansa.index[o]) # remove the current item from sansa and make it into a new hash
-        for m in range(len(Arya)): # for each item in arya
-            if ((Arya['start'].iloc[m]>=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['end'].iloc[o])): # if arya starts after sansa and ends before it
+#    StarkEnds=TranscriptData['Starts-Ends'].iloc[0].split(",") # split all stasts and ends in hash item
+#    StarkItems=TranscriptData['ExonIntronSeq'].iloc[0].split(",") # split all introns/exons in the hash item
+#    Sansa = pd.DataFrame()#columns=['start', 'end', 'length', 'item']) # make empty dataframe
+#    for p in range(len(StarkEnds)): # for each item in StarkEnds
+#        inicio, fim = StarkEnds[p].split("-") # gets the values from start and end, to calculate size
+#        tamanho = int(fim) - int(inicio) # calculates the sizer of the item
+#        InputSubsetorery = [inicio, fim, tamanho, StarkItems[p]] # make snew hash with data collected before
+#        Sansa = Sansa.append([InputSubsetorery], ignore_index=True) # add to hahs
+#    Sansa.columns=['start', 'end', 'length', 'item'] # set the names of the columns in sansa
+#    sansadrop = list() # create an empty list
+#    for o in range(len(Sansa)): # for each item in sansa
+#        Arya = Sansa.drop(Sansa.index[o]) # remove the current item from sansa and make it into a new hash
+#        for m in range(len(Arya)): # for each item in arya
+#            if ((Arya['start'].iloc[m]>=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['end'].iloc[o])): # if arya starts after sansa and ends before it
                 # Arya smaller than Sansa and contained in it
                 # Arya and sansa cover exactly the same area
                 #sansadrop = sansadrop
-                eita = 1+10 #makes the eita variable into 14. why? idk... (yet))
-            elif ((Sansa['start'].iloc[o]>=Arya['start'].iloc[m]) and (Sansa['end'].iloc[o]<=Arya['end'].iloc[m])): # if arya starts after sansa and ends before sansa does
+#                eita = 1+10 #makes the eita variable into 14. why? idk... (yet))
+#            elif ((Sansa['start'].iloc[o]>=Arya['start'].iloc[m]) and (Sansa['end'].iloc[o]<=Arya['end'].iloc[m])): # if arya starts after sansa and ends before sansa does
                 # Sansa smaller than Arya and contained in it
-                if (not o in sansadrop) and (not m in sansadrop) and Sansa['length'].iloc[o] >= 100: # if neither of the items is listed to be droped
-                    sansadrop.append(o) # append item in question to the list of items to drop
-            elif (Arya['start'].iloc[m]>=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]>=Sansa['end'].iloc[o]): # if arya starts after sansa, and ends after sansa ends
+#                if (not o in sansadrop) and (not m in sansadrop) and Sansa['length'].iloc[o] >= 100: # if neither of the items is listed to be droped
+#                    sansadrop.append(o) # append item in question to the list of items to drop
+#            elif (Arya['start'].iloc[m]>=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]>=Sansa['end'].iloc[o]): # if arya starts after sansa, and ends after sansa ends
                 # Arya starts after Sansa starts, and ends after Sansa ends.
                 # Arya starts after Sansa start, and ends where sansa ends.
                 # Arya starts where Sansa starts, and ends where sansa ends.
-                overlap = int(Sansa['end'].iloc[o]) - int(Arya['start'].iloc[m]) # calculates overlap between two items
-                if (not o in sansadrop) and (not m in sansadrop) and overlap>=100: # if neither of the items is listed to be droped
-                    sansadrop.append(o) # append item in question to the list of items to drop
-            elif (Arya['start'].iloc[m]<=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['end'].iloc[o]):  # if arya starts before sansa does, and ends before sansa does 
+#                overlap = int(Sansa['end'].iloc[o]) - int(Arya['start'].iloc[m]) # calculates overlap between two items
+#                if (not o in sansadrop) and (not m in sansadrop) and overlap>=100: # if neither of the items is listed to be droped
+#                    sansadrop.append(o) # append item in question to the list of items to drop
+#            elif (Arya['start'].iloc[m]<=Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['end'].iloc[o]):  # if arya starts before sansa does, and ends before sansa does 
                 # Arya starts where sansa starts, and ends after sansa ends.
                 # Arya starts before Sansa starts, and ends before Sansa ends
                 # Arya starts before Sansa starts, and ends where Sansa ends.
                 # Arya starts where Sansa starts, and ends before Sansa ends.
                 # calculate overlap:
-                overlap = int(Arya['end'].iloc[m]) - int(Sansa['start'].iloc[o]) # calculates overlap between two items
-                if (not o in sansadrop) and (not m in sansadrop) and overlap>=100: # if neither of the items is listed to be droped
-                    sansadrop.append(o) # append item in question to the list of items to drop 
-            elif ((Arya['start'].iloc[m]<Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['start'].iloc[o]) or (Arya['start'].iloc[m]>=Sansa['end'].iloc[o] and Arya['end'].iloc[m]>Sansa['end'].iloc[o])): # if teh start of one is before the other, and the end of one is also before the start of the other, or starts after the other ends, and the one aends after the other endzs too.
+#                overlap = int(Arya['end'].iloc[m]) - int(Sansa['start'].iloc[o]) # calculates overlap between two items
+#                if (not o in sansadrop) and (not m in sansadrop) and overlap>=100: # if neither of the items is listed to be droped
+#                    sansadrop.append(o) # append item in question to the list of items to drop 
+#            elif ((Arya['start'].iloc[m]<Sansa['start'].iloc[o]) and (Arya['end'].iloc[m]<=Sansa['start'].iloc[o]) or (Arya['start'].iloc[m]>=Sansa['end'].iloc[o] and Arya['end'].iloc[m]>Sansa['end'].iloc[o])): # if teh start of one is before the other, and the end of one is also before the start of the other, or starts after the other ends, and the one aends after the other endzs too.
                 # Arya starts and ends before sansa starts
                 # Arya starts and ends after sansa ends
                 #ansadrop=sansadrop
-                eita = 1+13 #makes the eita variable into 14. why? idk... (yet)
-            else: # if no other applies, do this1
-                print("Something has gone terribly wrong!!! <o>"+str(Arya['start'].iloc[m])+" "+str(Arya['end'].iloc[m])+"\t"+str(Sansa['start'].iloc[o])+" "+str(Sansa['end'].iloc[o])+"\n") # print error to strandard output
-    if sansadrop!=[]: # if sansadrop is not empty
-        Sansa = Sansa.drop(Sansa.index[sansadrop]) #sansa drops the item sansadrop
-    StarkSE = pd.DataFrame(columns=['SE']) # starkse is a dataframe with one column
-    StarkI = pd.DataFrame(columns=['I']) # starki is a dataframe with one column
-    for q in range(len(Sansa)): # for item in sansa
-        NewSE = str(Sansa['start'].iloc[q])+"-"+str(Sansa['end'].iloc[q]) # # sets NewSE as the start and end in Sansa dataframe
-        if q == 0: # if you are in the very first item
-            StarkSE = str(NewSE) # transcript_instanceust sets StarkSE as the NewSE
-            StarkI = str(Sansa['item'].iloc[q]) # transcript_instanceust sets the StarkI as the item in Sansa
-        else: # if it's not the very first item
-            StarkSE = str(StarkSE)+","+str(NewSE) # adds to old SE the new one
-            StarkI = str(StarkI)+","+str(Sansa['item'].iloc[q]) # adds current item to old one
-    TranscriptData['Starts-Ends'] = StarkSE # sets the column Start-End as StarkSE
-    TranscriptData['ExonIntronSeq'] = StarkI # sets the column ExonIntronSeq as StarkI
-    TranscriptData['Flags'].iloc[0]=flag # add flags to hash
+#                eita = 1+13 #makes the eita variable into 14. why? idk... (yet)
+#            else: # if no other applies, do this1
+#                print("Something has gone terribly wrong!!! <o>"+str(Arya['start'].iloc[m])+" "+str(Arya['end'].iloc[m])+"\t"+str(Sansa['start'].iloc[o])+" "+str(Sansa['end'].iloc[o])+"\n") # print error to strandard output
+#    if sansadrop!=[]: # if sansadrop is not empty
+#        Sansa = Sansa.drop(Sansa.index[sansadrop]) #sansa drops the item sansadrop
+#    StarkSE = pd.DataFrame(columns=['SE']) # starkse is a dataframe with one column
+#    StarkI = pd.DataFrame(columns=['I']) # starki is a dataframe with one column
+#    for q in range(len(Sansa)): # for item in sansa
+#        NewSE = str(Sansa['start'].iloc[q])+"-"+str(Sansa['end'].iloc[q]) # # sets NewSE as the start and end in Sansa dataframe
+#        if q == 0: # if you are in the very first item
+#            StarkSE = str(NewSE) # transcript_instanceust sets StarkSE as the NewSE
+#            StarkI = str(Sansa['item'].iloc[q]) # transcript_instanceust sets the StarkI as the item in Sansa
+#        else: # if it's not the very first item
+#            StarkSE = str(StarkSE)+","+str(NewSE) # adds to old SE the new one
+#            StarkI = str(StarkI)+","+str(Sansa['item'].iloc[q]) # adds current item to old one
+#    TranscriptData['Starts-Ends'] = StarkSE # sets the column Start-End as StarkSE
+#    TranscriptData['ExonIntronSeq'] = StarkI # sets the column ExonIntronSeq as StarkI
+#    TranscriptData['Flags'].iloc[0]=flag # add flags to hash
     # make PrintingHash EIitem with Qname, Tname, and flags
-    FinalPrint = FinalPrint.append([TranscriptData], ignore_index=True) # add new item to end of hash
+#    FinalPrint = FinalPrint.append([TranscriptData], ignore_index=True) # add new item to end of hash
 
 # print everything to output
 outputz.write("Transcript\tGene\tExonIntronSeq\tUniqID\tTranscriptSize\tQueryStarts-Ends\tDBStarts-Ends\tFlags\tSequence\n")# open output and print header
@@ -250,8 +250,8 @@ for i in range(len(FinalPrint)): # for each item in the FinalPrint hash
 log.write("\n\n") # creates space between 
 
 # close every used file
-outputz.close()# close output
+#outputz.close()# close output
 log.close() # closes log
 fastaz.close() # closes fasta file
-inputz.close() # closes blat file
+#inputz.close() # closes blat file
 # end
