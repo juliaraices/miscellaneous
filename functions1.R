@@ -28,7 +28,7 @@ qualiPACBio <- function(x){ #give file opened with readDNAStringSet
 }
 
 counts_fpkm <- function(y, exp, column){
-	PC_reads = DataFrame(geneFB=character(), geneCG=character(), reads=integer(), fpkm=numeric())
+	PC_reads = data.frame(geneFB=character(), geneCG=character(), reads=integer(), fpkm=numeric())
 	# creates two new table, where we store the amount of reads for each gene and the amount of reads and fpkm
 	eita <- as.data.frame(t(table(y[,14])))
 	for(l in 1:length(eita[,2])){ # for each pair gene/reads
@@ -44,10 +44,46 @@ counts_fpkm <- function(y, exp, column){
 		if(length(CG)==0){
 			CG=NA
 		}
-		temp=DataFrame(geneFB=eita[l,2], geneCG=CG, reads=eita[l,3], fpkm=fspkms)
+		temp=data.frame(geneFB=eita[l,2], geneCG=CG, reads=eita[l,3], fpkm=fspkms)
 		PC_reads <- rbind(PC_reads, temp) # actrually add the reads to the read dataframe
 	}
 	# this two dataframes is to be able to do plots easily with it all
 	return(PC_reads)
 }
+
+
+### Updated March 2021
+
+myToPlot <- function(tabela){
+	# This function creates an array of datyaframes with the coordinates so we can plot them with genemodel.plot, from the librare genemodel
+	# the "tabela" input corresponds to the output of my own code to make an exon/intron table (i.e table_creator.py).
+	# The header of such table is (or is very similar to, mantaining the general order of):
+	# [1]Transcript [2]Gene [3]Exon/Intron.Sequence [4]TranscriptSize [5]Starts-EndsOfExon/IntronMatchesInTranscript [6]UniqueIDs [7]Flags [8]Sequence
+	# We still need to find a way to change the coordinate to chrmosome coordinates
+	Plotable = list()
+	#creates a new dataframe to store the altered reads/trascripts so we can use it with "genemodel" library
+	for(l in 1:nrow(tabela)){ #for each row
+		readName = tabela$Transcript[l]
+		geneFB = tabela$Gene[l]
+		numero = l
+		bpstop = 2000
+		temp1 <- (strsplit(tabela$Starts.Ends[l], ","))
+		temp3 <- rep("coding_sequence", length(temp1))
+		temp2  <- data.frame(type=temp3, coordinates=temp1)
+		Plotable[[l]] <- temp2
+		names(Plotable[[l]]) <- c("type", "coordinates")
+	}
+	return(Plotable)
+}
+
+
+
+
+
+
+
+
+
+
+
 
