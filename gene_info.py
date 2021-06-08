@@ -26,11 +26,11 @@ parser.add_argument("--rosetta", default="/nfs/scistore03/vicosgrp/jraices/melan
 parser.add_argument("--map", default="/nfs/scistore03/vicosgrp/jraices/melanogaster/gene_map_table_fb_2021_02.tsv", type=str, help='FlyBase\'s location of genesDB in chromosomes. Default is the from January 2021') # sets the default renompondence of FBgn to gene name from FlyBase to be used in case it is not provided by the user
 #mapa = pd.read_table("/nfs/scistore03/vicosgrp/jraices/melanogaster/gene_map_table_fb_2021_02.tsv", header=5, sep='\t') # for de-bugging
 parser.add_argument("--output", default="AllThings.output", help="Desired name for the output file. Default is .output", type=str) # sets the output file name if none is given. If there's already a file with that name, it will be overwritten.
-#outputz = open("AllThings.output", "w") # for de-bug
+#outputz = open("TestGeneInfo.output", "w") # for de-bug
 parser.add_argument("--log", default="geneinfo.log", help="Desired name for the log file. Default is .log", type=str) # sets the log file name if none is given. The new log will be appended to the end of the given file.
 #log = open("geneinfo.log", "a") # for de-bug
 
-args = parser.parse_args()
+args = parser.parse_args() #spliting arguments given when program was called
 
 # checkif all files open
 try: # makes sure you can open all the files
@@ -40,7 +40,7 @@ try: # makes sure you can open all the files
     age2 = pd.read_table(args.ageZ, header=1, sep='\t')# read input into a dataframe
     color2 = pd.read_csv(args.chrmColourS2, header=2, sep='\t')# read input into a dataframe
     color1 = pd.read_csv(args.chrmColourBG3, header=2, sep='\t')# read input into a dataframe
-    roseta = pd.read_table(args.rosetta, header=5, sep='\t')
+    roseta = pd.read_table(args.rosetta, header=5, sep='\t') # read input to dataframe
     mapa = pd.read_table(args.map, header=5, sep='\t')# read input into a dataframe
     location = pd.read_table(args.chrLoc, header=1, sep='\t')# read input into a dataframe
     outputz = open(args.output, "w") # "w" will overwrite file
@@ -60,51 +60,51 @@ log.write("\n\n#########################\nNew usage of gene_info.py at " + str(d
 # goal: gene[1] age[2] chromosome #[2] muller element[3] location in chr[4] introns/exons[5] location introns/exons in gene[6] location introns/exons in chr[7] #chromatin color1 of introns/exons[8]
 
 outputz.write("Gene\tChromosome\tMullerElement\tExonsIntronsSequence\tExonIntronInChromosomeLoci\tGeneSize\tExonIntronInGeneLoci\tAgeAssis\tAgeZhang\tColourBG3\tColourS2\tAge\tAgeFrom\tColour\tColourFrom\n")# open output and print header
+#give informative names to each dataset columns
 mapa.columns=('spp','symbol','FBgn', 'recombination_loci', 'cyto_loci', 'seq_loci')
 color1.columns=('chrom', 'start', 'end', 'ColorBG3Number')
 color2.columns=('chrom', 'start', 'end', 'ColorS2Number')
 location.columns=('match', 'mismatch', 'RepMatch', 'Ns', 'QGapCount', 'QGapBases', 'TGapCount', 'TGapBases', 'strand', 'Qname', 'Qsize', 'Qstart', 'Qend', 'GeneName', 'genesDBize', 'Tstart', 'Tend', 'BlockCount', 'BlockSizes', 'qStarts', 'tStarts') # sets the names of the columns from the blat file
 age.columns=('child','parent','ancestral','DNA/RNA','Age','D(P,A)','D(C,A)','D(PC,A)', 'Class', 'Tau(C)', 'Tau(P)', 'Tau(A)', 'Tiss(C)', 'Tiss(P)', 'Tiss(A)')
-age.drop(['parent','ancestral','DNA/RNA','D(P,A)','D(C,A)','D(PC,A)', 'Class', 'Tau(C)', 'Tau(P)', 'Tau(A)', 'Tiss(C)', 'Tiss(P)', 'Tiss(A)'], inplace=True, axis=1)
-age2.columns=('id', 'chrom', 'branch', 'bias', 'tissue_number', 'testis_value', 'ovary_value', 'adj_pvalue')
-age2.drop(['bias', 'tissue_number', 'testis_value', 'ovary_value', 'adj_pvalue'], inplace=True, axis=1)
-roseta.columns=('id1', 'organism_abbreviation', 'FBgn', 'secondary_FBgn#(s)', 'id', 'secondary_annotation_ID(s)')
-roseta.drop(['organism_abbreviation', 'secondary_FBgn#(s)', 'secondary_annotation_ID(s)'], inplace=True, axis=1)
+age.drop(['parent','ancestral','DNA/RNA','D(P,A)','D(C,A)','D(PC,A)', 'Class', 'Tau(C)', 'Tau(P)', 'Tau(A)', 'Tiss(C)', 'Tiss(P)', 'Tiss(A)'], inplace=True, axis=1) #remove columns we won't use
+age2.columns=('id', 'chrom', 'branch', 'bias', 'tissue_number', 'testis_value', 'ovary_value', 'adj_pvalue') # set column names
+age2.drop(['bias', 'tissue_number', 'testis_value', 'ovary_value', 'adj_pvalue'], inplace=True, axis=1) #removo columns we won't use
+roseta.columns=('id1', 'spp', 'FBgn', 'secondary_FBgn#(s)', 'id', 'secondary_annotation_ID(s)') # set column names
+roseta.drop(['secondary_FBgn#(s)', 'secondary_annotation_ID(s)'], inplace=True, axis=1) # remove collumns we don't use'
 
 
-genesDB = pd.DataFrame(columns=['FBgn', 'Chrm', 'Muller', 'Geneloci', 'Size', 'EIseq', 'QEIloci', 'AgeAssis', 'AgeZhang', 'ColourBG3', 'ColourS2', 'Age', 'AgeFrom', 'Colour', 'ColourFrom'])
+genesDB = pd.DataFrame(columns=['FBgn', 'Chrm', 'Muller', 'GeneLoci', 'Size', 'EIseq', 'QEIloci', 'AgeAssis', 'AgeZhang', 'ColourBG3', 'ColourS2', 'Age', 'AgeFrom', 'Colour', 'ColourFrom']) # set the structure and columns of the database we want
 
-
-for lineN in range(len(mapa['FBgn'])):
-    if mapa['spp'].iloc[lineN] != "Dmel":
-        continue
-    if ":" in str(mapa['seq_loci'].iloc[lineN]):
-        corFinal = 'NA'
+for lineN in range(len(mapa['FBgn'])): #for each line in the mapa dataframe
+    if mapa['spp'].iloc[lineN] != "Dmel": #if the species is not drosophila just go to next line
+        continue #re-start loop
+    if ":" in str(mapa['seq_loci'].iloc[lineN]): #usually the chromosomoal location is given as Chr:Start..End, so if there's text in that field it lshould have a ":"
+        corFinal = 'NA' # start by defining the parameters as 'NA'
         corFrom='NA'
-        chromosome, startEnd = str(mapa['seq_loci'].iloc[lineN]).split(':')
-        starts1, ends1 = str(startEnd).split('..')
-        ends = re.sub("[\(\[].*?[\)\]]", "", ends1)
-        starts = re.sub("[\(\[].*?[\)\]]", "", starts1)
-        sizing = int(ends) - int(starts)
-        if not (color1[(color1['start'] <= int(starts)) & (color1['end'] >= int(ends))].empty):
-            cor1 = color1[(color1['start'] <= int(starts)) & (color1['end'] >= int(ends))]['ColorBG3Number'].iloc[0]
-            corFinal = color1[(color1['start'] <= int(starts)) & (color1['end'] >= int(ends))]['ColorBG3Number'].iloc[0]
-            corFrom = 'BG3'
-        else:
-            cor1 = 'NA'
-        if not (color2[(color2['start'] <= int(starts)) & (color2['end'] >= int(ends))].empty):
-            cor2 = color2[(color2['start'] <= int(starts)) & (color2['end'] >= int(ends))]['ColorS2Number'].iloc[0]
-            if corFinal=='NA':
-                corFinal = color2[(color2['start'] <= int(starts)) & (color2['end'] >= int(ends))]['ColorS2Number'].iloc[0]
-                corFrom = 'S2'
-        else:
+        chromosome, startEnd = str(mapa['seq_loci'].iloc[lineN]).split(':') # split loci into chromosome and Start..End
+        starts1, ends1 = str(startEnd).split('..') # split the string into loci start and loci end
+        ends = re.sub("[\(\[].*?[\)\]]", "", ends1) # substitute any of those characters (and anything between them) for nothing, ie remove them
+        starts = re.sub("[\(\[].*?[\)\]]", "", starts1) # same for the start item
+        sizing = int(ends) - int(starts) # get the size of the ene by subtracting the end and start values
+        if not (color1[(color1.start <= int(starts)) & (color1.end >= int(ends)) & (color1.chrom.str.contains(str(chromosome)))].empty): # check if the subset of color1 (BG3 cells) where the start and end of gene are within the start and end of the color is not empty. if it's not empty do:
+            cor1 = color1[(color1['start'] <= int(starts)) & (color1['end'] >= int(ends)) & (color1['chrom'].str.contains(str(chromosome)))].ColorBG3Number.iloc[0] # set color1 as the color the gene is
+            corFinal = color1[(color1['start'] <= int(starts)) & (color1['end'] >= int(ends)) & (color1['chrom'].str.contains(str(chromosome)))].ColorBG3Number.iloc[0] # set the final color as the color where the gene is
+            corFrom = 'BG3' # set that the color is from BG3
+        else: # if the subset is empty
+            cor1 = 'NA' # mae color1 an# NA
+        if not (color2[(color2.start <= int(starts)) & (color2['end'] >= int(ends)) & (color2['chrom'].str.contains(str(chromosome)))].empty): # check if the subset of color2 (S2 cells) where the start and end of gene are within the start and end of the color is not empty. if it's not empty do:
+            cor2 = color2[(color2['start'] <= int(starts)) & (color2['end'] >= int(ends)) & (color2['chrom'].str.contains(str(chromosome)))].ColorS2Number.iloc[0] # set colocr2 as the color the gene is
+            if corFinal=='NA': # if corFinal is not filled, add color 2 as it's color
+                corFinal = color2[(color2['start'] <= int(starts)) & (color2['end'] >= int(ends)) & (color2['chrom'].str.contains(str(chromosome)))].ColorS2Number.iloc[0]
+                corFrom = 'S2' # and set that the color came from color 2
+        else: # if the subset is empty set color2 as NA
             cor2 = 'NA'
-    else:
+    else: # if the mapa doesnt have a proper location for the gene set everything as NA
         chromosome = 'NA'
         starts = 'NA'
         ends = 'NA'
         sizing='NA'
-    if chromosome == '4':
+    if chromosome == '4': #set the muller elements for all chromosomes
         muller = "F"
     elif chromosome == 'X':
         muller = "A"
@@ -116,26 +116,28 @@ for lineN in range(len(mapa['FBgn'])):
         muller = "D"
     elif chromosome == '3R':
         muller = "E"
-    elif chromosome == 'Y':
+    elif chromosome == 'Y': #includin the Y as Y
         muller = "Y"
-    elif chromosome == 'NA':
+    elif chromosome == 'NA': # NAs as NAs
         muller = 'NA'
-    else:
+    else: # and anything else as other
         muller = "Other"
-    newRow = {'FBgn':mapa['FBgn'].iloc[lineN], 'Chrm':chromosome, 'Muller':muller, 'GeneLoci':str(starts)+"-"+str(ends), 'Size':sizing, 'EIseq':'NA', 'QEIloci':'NA', 'AgeAssis':'NA', 'AgeZhang':'NA', 'ColourBG3':color1, 'ColourS2':color2, 'Age':'NA', 'AgeFrom':'NA', 'Colour':corFinal, 'ColourFrom':corFrom}
-    genesDB = genesDB.append(newRow, ignore_index=True)
+    newRow = {'FBgn':mapa['FBgn'].iloc[lineN], 'Chrm':chromosome, 'Muller':muller, 'GeneLoci':str(starts)+"-"+str(ends), 'Size':sizing, 'EIseq':'NA', 'QEIloci':'NA', 'AgeAssis':'NA', 'AgeZhang':'NA', 'ColourBG3':cor1, 'ColourS2':cor2, 'Age':'NA', 'AgeFrom':'NA', 'Colour':corFinal, 'ColourFrom':corFrom} #make a new row to be added to the dataframe with all the info we want. That is: the gene name, the chr it's in, the muler element, the loci, the gene size, the seq of exons and introns (which is na bc we dont have it yet) same for the loci of the exons and introns, and the ages from assis, zhang, and final age (and where it's from), and the colors: from bg3, s2, final color and where its from
+    genesDB = genesDB.append(newRow, ignore_index=True) # add that new row to the dataframe
 
-agerose = pd.merge(age2, roseta, on=["id"], how="left")
 
-for linha in range(len(agerose['FBgn'])):
-    if genesDB['FBgn'].isin([agerose['FBgn'].iloc[linha]]).any():
-        genesDB.AgeZhang[genesDB['FBgn'].isin([agerose['FBgn'].iloc[linha]])] = agerose['branch'].iloc[linha]
+agerose = pd.merge(age2, roseta, on=["id"], how="left") # merge zhang's age and our rosetta stone (ie the FlyBase file that sets the FBgn of each CG formats of genes)
+
+for linha in range(len(agerose['FBgn'])): # for each line in zhang's age file
+    if genesDB['FBgn'].isin([agerose['FBgn'].iloc[linha]]).any(): # check if that gene is in our database
+        genesDB.AgeZhang[genesDB['FBgn'].isin([agerose['FBgn'].iloc[linha]])] = agerose['branch'].iloc[linha] # if it is add zhangs data to it
         genesDB.Age[genesDB['FBgn'].isin([agerose['FBgn'].iloc[linha]])] = agerose['branch'].iloc[linha]
         genesDB.AgeFrom[genesDB['FBgn'].isin([agerose['FBgn'].iloc[linha]])] = "Zhang et al. 2010"
 
-for lineS in range(len(age['child'])):
-    if genesDB['FBgn'].str.contains(age['child'].iloc[lineS]).any():
-        genesDB.AgeAssis[genesDB['FBgn'].str.contains(age['child'].iloc[lineS])] = age['Age'].iloc[lineS]
+
+for lineS in range(len(age['child'])): # for each line in assis' age file
+    if genesDB['FBgn'].str.contains(age['child'].iloc[lineS]).any(): # chec if gene is in our data base
+        genesDB.AgeAssis[genesDB['FBgn'].str.contains(age['child'].iloc[lineS])] = age['Age'].iloc[lineS] # if it is add its age data to it
         genesDB.Age[genesDB['FBgn'].str.contains(age['child'].iloc[lineS])] = age['Age'].iloc[lineS]
         genesDB.AgeFrom[genesDB['FBgn'].str.contains(age['child'].iloc[lineS])] = "Assis and Bachtrog 2013"
 
@@ -171,11 +173,14 @@ for gene in location['GeneName']: # for each gene:
             EIlocis =  str(EIlocis) + ',' + str(InputSubset['genesDBtarts-Ends'].iloc[instance]) # same
             QEIlocis =  str(QEIlocis) + ',' + str(InputSubset['QueryStarts-Ends'].iloc[instance]) # same
     genesDB.EIseq[genesDB['FBgn'].str.contains(gene)] = EIitems
-    genesDB.EIloci[genesDB['FBgn'].str.contains(gene)] = EIlocis
+    genesDB.GeneLoci[genesDB['FBgn'].str.contains(gene)] = EIlocis
     genesDB.QEIloci[genesDB['FBgn'].str.contains(gene)] = QEIlocis # adds new values to dataframe
 
-print(tabulate(genesDB, index=False), file=outputz)
-
+#print database to file
+#print(tabulate(genesDB), index=False, file=outputz)
+#genesDB.to_csv(outputz, index=None, sep='\t', mode='w')
+for i in range(len(genesDB.FBgn)):
+    outputz.write(str(genesDB.FBgn[i]) + "\t" + str(genesDB.Chrm[i])+ "\t" + str(genesDB.Muller[i])+ "\t" + str(genesDB.GeneLoci[i]) + "\t" + str(genesDB.Size[i])+ "\t" + str(genesDB.EIseq[i]) + "\t" + str(genesDB.QEIloci[i]) + "\t" + str(genesDB.AgeAssis[i])+ "\t" + str(genesDB.AgeZhang[i]) + "\t" + str(genesDB.ColourBG3[i]) + "\t" + str(genesDB.ColourS2[i])+ "\t" + str(genesDB.Age[i]) + "\t" + str(genesDB.AgeFrom[i]) + "\t" + str(genesDB.Colour[i])+ "\t" + str(genesDB.ColourFrom[i]))
 
 # close every used file
 #outputz.close()# close output
