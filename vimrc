@@ -3,6 +3,7 @@ set ignorecase
 set smartcase
 set scrolloff=3
 set backspace=indent,eol,start  " more powerful backspacing
+set t_Co=256
 
 execute pathogen#infect()
 
@@ -19,7 +20,7 @@ set cursorline
 
 hi CursorLine term=none cterm=none ctermbg=235
 
-colorscheme jelleybeans
+colorscheme molokai
 
 :command WQ wq
 :command Wq wq

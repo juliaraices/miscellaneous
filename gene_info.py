@@ -59,7 +59,7 @@ log.write("\n\n#########################\nNew usage of gene_info.py at " + str(d
 # age and location:
 # goal: gene[1] age[2] chromosome #[2] muller element[3] location in chr[4] introns/exons[5] location introns/exons in gene[6] location introns/exons in chr[7] #chromatin color1 of introns/exons[8]
 
-outputz.write("Gene\tChromosome\tMullerElement\tExonsIntronsSequence\tExonIntronInChromosomeLoci\tGeneSize\tExonIntronInGeneLoci\tAgeAssis\tAgeZhang\tColourBG3\tColourS2\tAge\tAgeFrom\tColour\tColourFrom\n")# open output and print header
+
 #give informative names to each dataset columns
 mapa.columns=('spp','symbol','FBgn', 'recombination_loci', 'cyto_loci', 'seq_loci')
 color1.columns=('chrom', 'start', 'end', 'ColorBG3Number')
@@ -73,7 +73,7 @@ roseta.columns=('id1', 'spp', 'FBgn', 'secondary_FBgn#(s)', 'id', 'secondary_ann
 roseta.drop(['secondary_FBgn#(s)', 'secondary_annotation_ID(s)'], inplace=True, axis=1) # remove collumns we don't use'
 
 
-genesDB = pd.DataFrame(columns=['FBgn', 'Chrm', 'Muller', 'GeneLoci', 'Size', 'EIseq', 'QEIloci', 'AgeAssis', 'AgeZhang', 'ColourBG3', 'ColourS2', 'Age', 'AgeFrom', 'Colour', 'ColourFrom']) # set the structure and columns of the database we want
+genesDB = pd.DataFrame(columns=['FBgn', 'Chrm', 'Muller', 'GeneLoci', 'Size', 'EIseq', 'EIseqSimple', 'ChrmEIloci', 'GeneEIloci', 'CorChrmEIloci', 'QEIloci', 'AgeAssis', 'AgeZhang', 'ColourBG3', 'ColourS2', 'Age', 'AgeFrom', 'Colour', 'ColourFrom']) # set the structure and columns of the database we want
 
 for lineN in range(len(mapa['FBgn'])): #for each line in the mapa dataframe
     if mapa['spp'].iloc[lineN] != "Dmel": #if the species is not drosophila just go to next line
@@ -122,7 +122,7 @@ for lineN in range(len(mapa['FBgn'])): #for each line in the mapa dataframe
         muller = 'NA'
     else: # and anything else as other
         muller = "Other"
-    newRow = {'FBgn':mapa['FBgn'].iloc[lineN], 'Chrm':chromosome, 'Muller':muller, 'GeneLoci':str(starts)+"-"+str(ends), 'Size':sizing, 'EIseq':'NA', 'QEIloci':'NA', 'AgeAssis':'NA', 'AgeZhang':'NA', 'ColourBG3':cor1, 'ColourS2':cor2, 'Age':'NA', 'AgeFrom':'NA', 'Colour':corFinal, 'ColourFrom':corFrom} #make a new row to be added to the dataframe with all the info we want. That is: the gene name, the chr it's in, the muler element, the loci, the gene size, the seq of exons and introns (which is na bc we dont have it yet) same for the loci of the exons and introns, and the ages from assis, zhang, and final age (and where it's from), and the colors: from bg3, s2, final color and where its from
+    newRow = {'FBgn':mapa['FBgn'].iloc[lineN], 'Chrm':chromosome, 'Muller':muller, 'GeneLoci':str(starts)+"-"+str(ends), 'Size':sizing, 'EIseq':'NA', 'EIseqSimple':'NA', 'ChrmEIloci':'NA', 'CorChrmEIloci':'NA', 'QEIloci':'NA', 'GeneEIloci':'NA', 'AgeAssis':'NA', 'AgeZhang':'NA', 'ColourBG3':cor1, 'ColourS2':cor2, 'Age':'NA', 'AgeFrom':'NA', 'Colour':corFinal, 'ColourFrom':corFrom} #make a new row to be added to the dataframe with all the info we want. That is: the gene name, the chr it's in, the muler element, the loci, the gene size, the seq of exons and introns (which is na bc we dont have it yet) same for the loci of the exons and introns, and the ages from assis, zhang, and final age (and where it's from), and the colors: from bg3, s2, final color and where its from
     genesDB = genesDB.append(newRow, ignore_index=True) # add that new row to the dataframe
 
 
@@ -149,38 +149,78 @@ for lineS in range(len(age['child'])): # for each line in assis' age file
 
 # add output columns/names
 # add columns we will fill out later with a standard value (in this case, NA = Not Available)
-location['QueryStarts-Ends'] = 'NA' # create a new column, and sets start-end in query
-location['genesDBtarts-Ends'] = 'NA' # create a new column, and sets start-ends in transcript
-location['EIseq'] = 'NA' # create a new column, and sets start-ends in transcript
-location['EIloci'] = 'NA' # create a new column, and sets start-ends in transcript
-location['QEIloci'] = 'NA' # create a new column, and sets start-ends in transcript
+#location['EIseq'] = 'NA' # create a new column, and sets sequence of exons/introns in transcript
+#location['GeneEIloci'] = 'NA' # create a new column, and sets start-ends in transcript
+#location['QEIloci'] = 'NA' # create a new column, and sets start-ends in exons/introns
+#location['ChrmEIloci'] = 'NA' # create a new column, and sets start-ends in chromosome
+#get unique gene names to work with
+UniqGenes = location['GeneName'].unique()
 
-
-for gene in location['GeneName']: # for each gene:
+for gene in UniqGenes: # for each gene:
     EIitems = [] # starts empty hash to store the exons/introns sequence
-    EIlocis = [] # starts an empty hash to store the loci (start-finish) of each match
+    SEIitems = [] # starts empty hash to store the exons/introns sequence
+    GEIlocis = [] # starts an empty hash to store the loci (start-finish) of each match in gene/transcript/DB
+    QEIlocis = [] # starts an empty hash to store the loci (start-finish) of each match in exons-introns/query
+    CEIlocis = [] # starts an empty hash to store the loci (start-finish) of each match in chromosome
+    CCEIlocis = [] # starts an empty hash to store the loci (start-finish) of each match in chromosome
+    GeneLocis = genesDB.GeneLoci[genesDB['FBgn'].str.contains(gene)] #get gene chromosomol loci
+    if "NA" not in GeneLocis:
+        print(GeneLocis.iloc[0])
+        GeneStart, GeneEnd = GeneLocis.iloc[0].split("-")
+    else:
+        GeneStart = 'NA'
+        GeneEnd = 'NA'
     InputSubset = location[location['GeneName'] == gene] #subsets the full input only to the items that are from transcript transcript_name
     InputSubset.sort_values(['Tstart','Tend'], inplace=True) # sort according to Tstart first, and within that, accoridng to Tend
     for instance in range(len(InputSubset['Qname'])): # for each instance in the subset
-        InputSubset['QueryStarts-Ends'].iloc[instance] = str(InputSubset['Qstart'].iloc[instance]) + '-' + str(InputSubset['Qend'].iloc[instance]) # sets start-end in query
-        InputSubset['genesDBtarts-Ends'].iloc[instance] = str(InputSubset['Tstart'].iloc[instance]) + '-' + str(InputSubset['Tend'].iloc[instance]) # sets start-ends in transcript
+        if "intron" in InputSubset['Qname'].iloc[instance]: # if it's an intron
+            Intron, Set1, Set2 = InputSubset['Qname'].iloc[instance].split("_")
+            Gene1, EIitem1 = Set1.split(":")
+            Gene2, EIitem2 = Set2.split(":")
+            number = str(EIitem1) + "_" + str(EIitem2)
+            if (Gene1 != Gene2) or (Gene1 != gene) or (Gene2 != gene):
+                log.write("Issue with " + str(InputSubset['Qname'].iloc[instance]) + " , in gene " + str(gene) + "\n")
+        else:
+            name, number = InputSubset['Qname'].iloc[instance].split(":")
+            if name != gene:
+                log.write("Issue with " + str(InputSubset['Qname'].iloc[instance]) + " , in gene " + str(gene) + "\n")
+        TempQueryStartEnd = str(InputSubset['Qstart'].iloc[instance]) + '-' + str(InputSubset['Qend'].iloc[instance]) # sets start-end in query
+        TempDBStartEnd = str(InputSubset['Tstart'].iloc[instance]) + '-' + str(InputSubset['Tend'].iloc[instance]) # sets start-ends in transcript
+        TempChrmStart = int(InputSubset.Tstart.iloc[instance]) + int(GeneStart)
+        TempChrmStartCor = int(InputSubset.Tstart.iloc[instance]) - int(InputSubset.Qstart.iloc[instance]) + int(GeneStart)
+        TempChrmEnd = int(InputSubset.Tend.iloc[instance]) + int(GeneEnd)
+        TempChrmEndCor = int(InputSubset.Tend.iloc[instance]) - int(InputSubset.Tend.iloc[instance]) + int(GeneEnd)
+        TempChrmStartEnd = str(TempChrmStart) + "-" + str(TempChrmEnd)
+        TempChrmStartEndCor = str(TempChrmStartCor) + "-" + str(TempChrmEndCor)
+        #get chromosomal and gene related positions of exons/introns
         if not EIitems: # if there are no items in the hash
-            EIitems =  InputSubset['Qname'].iloc[instance] # add the item to the sequence hash
-            EIlocis =  InputSubset['genesDBtarts-Ends'].iloc[instance] # add start-end to the start-end hash
-            QEIlocis =  InputSubset['QueryStarts-Ends'].iloc[instance] # add query start-end to the query start-end hash
+            EIitems = str(InputSubset['Qname'].iloc[instance]) # add the item to the sequence hash
+            SEIitems = number # add the item to the sequence hash
+            GEIlocis = TempDBStartEnd # add start-end to the start-end hash
+            QEIlocis = TempQueryStartEnd #add query start-end to the query start-end hash
+            CEIlocis = TempChrmStartEnd #add chromosomal start-end to hash
+            CCEIlocis = TempChrmStartEndCor #add chromosomal start-end to hash
         else: # if the hash is not empty
-            EIitems =  str(EIitems) + ',' + str(InputSubset['Qname'].iloc[instance]) # concatenate the new item to the old ones
-            EIlocis =  str(EIlocis) + ',' + str(InputSubset['genesDBtarts-Ends'].iloc[instance]) # same
-            QEIlocis =  str(QEIlocis) + ',' + str(InputSubset['QueryStarts-Ends'].iloc[instance]) # same
+            EIitems = str(EIitems) + ',' + str(InputSubset['Qname'].iloc[instance]) # concatenate the new item to the old ones
+            SEIitems = str(SEIitems) + ',' + str(number) # concatenate the new item to the old ones
+            GEIlocis = str(GEIlocis) + ',' + str(TempDBStartEnd) # same
+            QEIlocis = str(QEIlocis) + ',' + str(TempQueryStartEnd) # same
+            CEIlocis = str(CEIlocis) + ',' + str(TempChrmStartEnd) # same
+            CCEIlocis = str(CCEIlocis) + ',' + str(TempChrmStartEndCor) # same
     genesDB.EIseq[genesDB['FBgn'].str.contains(gene)] = EIitems
-    genesDB.GeneLoci[genesDB['FBgn'].str.contains(gene)] = EIlocis
+    genesDB.EIseqSimple[genesDB['FBgn'].str.contains(gene)] = SEIitems
+    genesDB.GeneEIloci[genesDB['FBgn'].str.contains(gene)] = GEIlocis
+    genesDB.ChrmEIloci[genesDB['FBgn'].str.contains(gene)] = CEIlocis
+    genesDB.CorChrmEIloci[genesDB['FBgn'].str.contains(gene)] = CCEIlocis
     genesDB.QEIloci[genesDB['FBgn'].str.contains(gene)] = QEIlocis # adds new values to dataframe
 
+
+
 #print database to file
-#print(tabulate(genesDB), index=False, file=outputz)
+outputz.write("Gene\tChromosome\tMullerElement\tGeneLoci\tGeneSize\tExonsIntronsSequence\tSimpleEISeq\tExonIntronLociInGene\tExonIntronLociInChromosome\tCorrectedExonIntronLociInChromosome\tGeneLociInExonsIntrons\tAgeAssis\tAgeZhang\tColourBG3\tColourS2\tAge\tAgeFrom\tColour\tColourFrom\n")# open output and print header
 #genesDB.to_csv(outputz, index=None, sep='\t', mode='w')
 for i in range(len(genesDB.FBgn)):
-    outputz.write(str(genesDB.FBgn[i]) + "\t" + str(genesDB.Chrm[i])+ "\t" + str(genesDB.Muller[i])+ "\t" + str(genesDB.GeneLoci[i]) + "\t" + str(genesDB.Size[i])+ "\t" + str(genesDB.EIseq[i]) + "\t" + str(genesDB.QEIloci[i]) + "\t" + str(genesDB.AgeAssis[i])+ "\t" + str(genesDB.AgeZhang[i]) + "\t" + str(genesDB.ColourBG3[i]) + "\t" + str(genesDB.ColourS2[i])+ "\t" + str(genesDB.Age[i]) + "\t" + str(genesDB.AgeFrom[i]) + "\t" + str(genesDB.Colour[i])+ "\t" + str(genesDB.ColourFrom[i]))
+    outputz.write(str(genesDB.FBgn[i]) + "\t" + str(genesDB.Chrm[i]) + "\t" + str(genesDB.Muller[i]) + "\t" + str(genesDB.GeneLoci[i]) + "\t" + str(genesDB.Size[i]) + "\t" + str(genesDB.EIseq[i]) + "\t" + str(genesDB.EIseqSimple) + "\t" + str(genesDB.GeneEIloci[i]) + "\t" + str(genesDB.ChrmEIloci[i]) + "\t" + str(genesDB.CorChrmEIloci[i]) + "\t" + str(genesDB.QEIloci[i]) + "\t" + str(genesDB.AgeAssis[i]) + "\t" + str(genesDB.AgeZhang[i]) + "\t" + str(genesDB.ColourBG3[i]) + "\t" + str(genesDB.ColourS2[i]) + "\t" + str(genesDB.Age[i]) + "\t" + str(genesDB.AgeFrom[i]) + "\t" + str(genesDB.Colour[i]) + "\t" + str(genesDB.ColourFrom[i]) + "\n")
 
 # close every used file
 #outputz.close()# close output
