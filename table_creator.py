@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(description='Program to create a table with the
 parser.add_argument("--blat", required=True, type=str, help='Output from blat of reads against introns and exons.') # states a required argument, a blat file, and has a helper message in case you don't provide it, or ask for help
 #inputz = pd.read_table("~/AS/dmel_analysis/gonads/raws/F1Gonads_ExonIntron.final.blat", header=None, sep='\t')#, escapechar='\\')# read input into a dataframe # for debugging purposes
 parser.add_argument("--alldoer", default="/nfs/scistore03/vicosgrp/jraices/programs/AllThings.output", type=str, help='Blat output from intron+exons used for your reads, but this time, against a full gene/extended gene dataset. Default is the blat output for extended genes vs exons+introns in Drosophila melanogaster') # sets the default genome blat file to be used in case it is not provided by the user
-#alldoer = pd.read_table("/nfs/scistore03/vicosgrp/jraices/programs/AllThings.output", sep='\t')#, escapechar='\\')# read input into a dataframe # for debugging purposes
+#alldoer = pd.read_table("/nfs/scistore03/vicosgrp/jraices/programs/AllThings.output", sep='\t', na_values="NA", )#, escapechar='\\')# read input into a dataframe # for debugging purposes
 parser.add_argument("--fastQuery", required=True, type=str, help='Reads/data used in blat against introns and exons') # states a required argument, a fasta file, and has a helper message in case you don't provide it, or ask for help
 #fastaQuery = open("/nfs/scistore03/vicosgrp/jraices/AS/dmel_analysis/gonads/raws/F1Gonads.fasta", "r") # opens file as read only #for debugging purposes
 parser.add_argument("--output", default="IntronExonTable.output", help="Desired name for the output file. Default is IntronExonTable.output", type=str) # sets the output file name if none is given. If there's already a file with that name, it will be overwritten.
@@ -27,7 +27,7 @@ try: # makes sure you can open all the files
     log = open(args.log, "a") # "a" will append to the end of the file
     # open input
     inputz = pd.read_table(args.blat, header=None, sep='\t')#, escapechar='\\')# read input into a dataframe
-    alldoer = pd.read_table(args.alldoer, sep='\t')#, escapechar='\\')# read input into a dataframe
+    alldoer = pd.read_csv(args.alldoer, sep='\t', na_values="NA")#, converters={"CorrectedExonIntronLociInChromosome":str})#, escapechar='\\')# read input into a dataframe
     fastaQuery = open(args.fastQuery, "r") # opens file as read only
     outputz = open(args.output, "w") # "w" will overwrite file
 #if files do not open:
@@ -171,13 +171,36 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
                     Flags = Flags + ",DifferentGenes"
         InputSubset['QueryStarts-Ends'].iloc[instance] = str(InputSubset['Qstart'].iloc[instance]) + '-' + str(InputSubset['Qend'].iloc[instance]) # sets start-end in query
         InputSubset['ReadStarts-Ends'].iloc[instance] = str(InputSubset['Tstart'].iloc[instance]) + '-' + str(InputSubset['Tend'].iloc[instance]) # sets start-ends in transcript
-        GeneInfo = alldoer[alldoer.Gene == str(Gene)]
-        #outputz.write("Gene\tChromosome\tMullerElement\tGeneLoci\tGeneSize\tExonsIntronsSequence\tSimpleEISeq\tExonIntronLociInGene\tExonIntronLociInChromosome\tGeneLociInExonsIntrons\tAgeAssis\tAgeZhang\tColourBG3\tColourS2\tAge\tAgeFrom\tColour\tColourFrom\n")# open output and print header
-        GeneEI = GeneInfo.SimpleEISeq.split(",")
-        GeneCEISE = GeneInfo.CorrectedExonIntronLociInChromosome.split(",")
-        TempChrmStart = int(GeneCEISE[GeneEI==InputSubset['ExonIntronSeq'].iloc[instance]].str.split("-").iloc[0]) + int(InputSubset['Qstart'].iloc[instance])
-        TempChrmEnd = int(GeneCEISE[GeneEI==InputSubset['ExonIntronSeq'].iloc[instance]].str.split("-").iloc[1]) + int(InputSubset['Qend'].iloc[instance])
-        TempChrmStartEnd = str(TempChrmStart) + "-" + str(TempChrmEnd)
+        if not alldoer[alldoer.Gene==str(Gene)].empty: # if the gene is present in our absolute table
+            GeneInfo = alldoer[alldoer.Gene==str(Gene)] #get gene from absolute table
+            Muller = GeneInfo.MullerElement.iloc[0] # get the info we want.
+            Chrm = GeneInfo.Chromosome.iloc[0]
+            Cor = GeneInfo.Colour.iloc[0]
+            CorDe = GeneInfo.ColourFrom.iloc[0] #type of cell the data is from
+            GeneLocus = GeneInfo.GeneLoci.iloc[0]
+            AgeZ = GeneInfo.AgeZhang.iloc[0]
+            AgeA = GeneInfo.AgeAssis.iloc[0]
+            GeneEI = GeneInfo.SimpleEISeq.str.split(",") #sequence of exons introns that belong ta that gene
+            GeneCEISE = GeneInfo.ExonIntronLociInChromosome.str.split(",") #location of said exons and introns
+            if GeneCEISE[GeneEI==InputSubset['ExonIntronSeq'].iloc[instance]].any(): #if the location is available
+                SubSetEIseq = GeneCEISE[GeneEI==InputSubset['ExonIntronSeq'].iloc[instance]] # get location  of exons/introns we also found in our transcript
+                TempChrmStart = int(SubSetEIseq.split("-")[0]) + int(InputSubset['Qstart'].iloc[instance])
+                TempChrmEnd = int(SubSetEIseq.split("-").iloc[1]) + int(InputSubset['Qend'].iloc[instance])
+                TempChrmStartEnd = str(TempChrmStart) + "-" + str(TempChrmEnd)
+            else: #if there's no info, it gets an "NA"
+                TempChrmStartEnd = "NA"
+        else: #if we don't have more info on the gene, everything gets an "NA"
+            Muller = "NA"
+            Chrm = "NA"
+            Cor = "NA"
+            CorDe = "NA"
+            GeneLocus = "NA"
+            AgeZ = "NA"
+            AgeA = "NA"
+            GeneEI = "NA"
+            GeneCEISE = "NA"
+            SubSetEIseq = "NA"
+            TempChrmStartEnd = "NA"
         if not EIitems: # if there are no items in the hash
             EIitems =  InputSubset['ExonIntronSeq'].iloc[instance] # add the item to the sequence hash
             EIloci =  InputSubset['ReadStarts-Ends'].iloc[instance] # add start-end to the start-end hash
@@ -191,16 +214,16 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
     outputz.write(str(InputSubset['ReadName'].iloc[0]) + #Transcript Name
                   "\t" + str(InputSubset['ReadSize'].iloc[0]) + #Transcript Size
                   "\t" + str(Gene) + #Gene Name
-                  "\t" + str(GeneInfo.MullerElement.iloc[0]) + #Muller Element where gene is
-                  "\t" + str(GeneInfo.Chromosome.iloc[0]) + #Chromosome where Gene is
-                  "\t" + str(GeneInfo.GeneLoci.iloc[0]) + #GeneLoci in Chromosome
+                  "\t" + str(Muller) + #Muller Element where gene is
+                  "\t" + str(Chrm) + #Chromosome where Gene is
+                  "\t" + str(GeneLocus) + #GeneLoci in Chromosome
                   "\t" + str(EIitems) +# Exon/Intron Sequence
                   "\t" + str(EIloci) + #Loci of match of Exons/Introns in Transcrcipt
                   "\t" + str(CEIloci) + #Loci of match of Exons/Introns in Chrm
-                  "\t" + str(GeneInfo.AgeZhang.iloc[0]) + #Age according to Zhang et al 2010
-                  "\t" + str(GeneInfo.AgeAssis.iloc[0]) + #Ageaccording to Assis & Bachtrog 2013
-                  "\t" + str(GeneInfo.Colour.iloc[0]) + #Chromatin Color at gene location in either BG3 (preferable) or S2
-                  "\t" + str(GeneInfo.ColourFrom.iloc[0]) + #Cell type chromati colour was acquired from
+                  "\t" + str(AgeZ) + #Age according to Zhang et al 2010
+                  "\t" + str(AgeA) + #Ageaccording to Assis & Bachtrog 2013
+                  "\t" + str(Cor) + #Chromatin Color at gene location in either BG3 (preferable) or S2
+                  "\t" + str(CorDe) + #Cell type chromati colour was acquired from
                   "\t" + str(Gene) + "." + str(EIitems) + #unique ID of transcript sequence
                   "\t" + str(GenesNumb) + #Number of genes matched to trannscript
                   "\t" + str(ExonNumb) + #Number of exons in transcript
@@ -209,9 +232,7 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
                   "\t" + str(reads_recorder[InputSubset['ReadName'].iloc[0]]) + #transcript sequence
                   "\n") # prints all important things to the output
 
-outputz.write("tTranscrip\tSize\tGene\tMullerElement\tChrm
-              *\tChrmStart-End\tExonIntronSeq\tEITranscStarts-Ends\tEIChrmStarts-Ends
-              \tAgeZhang\tAgeAssis\tChromatinColour\tCellTypeOfColour\tUniqID\t#Genes\t#Exons\t#Introns\tFlags\tSequence\n")# open output and print header
+#outputz.write("tTranscrip\tSize\tGene\tMullerElement\tChrm!*\tChrmStart-End\tExonIntronSeq\tEITranscStarts-Ends\tEIChrmStarts-Ends!*\tAgeZhang\tAgeAssis\tChromatinColour\tCellTypeOfColour\tUniqID\t#Genes\t#Exons\t#Introns\tFlags\tSequence\n")# open output and print header
 # close every used file
 outputz.close()# close output
 log.close() # closes log
