@@ -74,14 +74,15 @@ UniqTranscripts = inputz['ReadName'].unique() # get uniq transcripts from input[
 
 #TranscriptData = pd.DataFrame(columns = ['Tname', 'Gene', 'ExonIntronSeq', 'UniqID', 'Size', 'QStarts-Ends', 'DBStars-Ends', 'Flags', 'Sequence']) # initiates data frame for transcripts
 
-outputz.write("Transcript\tTranscriptSize\tGene\tMullerElement\tChrm\tChrmStart-End\tExonIntronSeq\tEITranscStarts-Ends\tEIChrmStarts-Ends\tUniqID\t#Genes\t#Exons\t#Introns\tFlags\tSequence\n")# open output and print header
+outputz.write("#EI=Exon+Intron\tSE=Start(s)-End(s) of loci\tChrm=Chromosome\t #=Number of\nTranscript\tTranscriptSize\tGene\tMullerElement\tChrm\tChrmSE\tEISeq\tEITranscSE\tEIChrmSE\tAgeZhang\tAgeAssis\tColor\tCellTypeColor\tUniqID\t#Genes\t#Exons\t#Introns\tFlags\tSequence\n")# open output and print header
+#outputz.write("Transcript\tTranscriptSize\tGene\tMullerElement\tChrm\tChrmSE\tEISeq\tEITranscSE\tEIChrmSE\AgeZhang\tAgeAssis\tColor\tCellTypeColor\tUniqID\t#Genes\t#Exons\t#Introns\tFlags\tSequence\n")# open output and print header
 
 for transcript_name in UniqTranscripts: # for each uniq transcript:
     EIitems = [] # starts empty hash to store the exons/introns sequence
     EIloci = [] # starts an empty hash to store the loci (start-finish) of each match
     CEIloci = [] # starts an empty hash to store the loci (start-finish) of each match to chromosome
     Gene = [] # starts a hash to store the gene id of each match
-    Flags = ""
+    Flags = "None"
     GenesNumb = 0
     IntronNumb = 0
     ExonNumb = 0
@@ -105,7 +106,7 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
                 else: # if the hash is not empty but the current gene is not in it
                     Gene = str(Gene) + "_" + str(Gene1) # concatenate the old gene id with the new one
                     GenesNumb += 1
-                    if not Flags: # if the flags hash is empty
+                    if Flags == "None": # if the flags hash is empty
                         Flags = "DifferentGenes" # add the flag for different genes
                     elif "DifferentGenes" in Flags: # if flags is not empty but this item is already there
                         # do nothing
@@ -128,21 +129,21 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
                 else: # if the hash is not empty but the current gene is not in it
                     Gene = str(Gene) + "_" + str(Gene1) + "_" + str(Gene2) # concatenate the old gene id with the new ones
                     GenesNumb += 2
-                if not Flags: # if the flags hash is empty
+                if Flags == "None": # if the flags hash is empty
                     Flags = "DifferentGenes" # add the flag for different genes
                 elif "DifferentGenes" in Flags: # if flags is not empty but this item is already there
                     # do nothing
                     Flags = Flags
                 else: # if the flags hash is not empty, but doesn't have this item
                     Flags = Flags + ",DifferentGenes"
-                if not Flags: # if there are no items in Flags
+                if Flags == "None": # if there are no items in Flags
                     Flags = "IntronBetweenGenes" # add this flag to it
                 elif "IntronBetweenGenes" in Flags: # if the flag is already in the hash
                     # do nothing
                     Flags = Flags
                 else: # if the hash is not empty but doesn't have this item
                     Flags = Flags + ",IntronBetweenGenes" # add item to it
-            if not Flags: # if there are no items in Flags
+            if Flags == "None": # if there are no items in Flags
                 Flags = "Intron"
             elif "Intron" in Flags: # if there's already the flag "intron" in the Flags hash, we don't need to do anything
                 # do nothing
@@ -150,7 +151,11 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
             else: # if the flag "intron" is not in the Flags hash, we add it to the hash
                 Flags = Flags + ",Intron"
         else: # if it's not an intron
-            InputSubset['Gene'].iloc[instance], InputSubset['ExonIntronSeq'].iloc[instance] = InputSubset['Qname'].iloc[instance].split(":") # split the items name into the gene name and the exon number
+            if ":" in InputSubset['Qname'].iloc[instance]:
+                InputSubset['Gene'].iloc[instance], InputSubset['ExonIntronSeq'].iloc[instance] = InputSubset['Qname'].iloc[instance].split(":") # split the items name into the gene name and the exon number
+            else:
+                InputSubset['Gene'].iloc[instance] = InputSubset['Qname'].iloc[instance] # doesn't split bc there's only the gen name
+                InputSubset['ExonIntronSeq'].iloc[instance] = "-" # adds sign that there are no exon/introns here
             GenesNumb += 1
             ExonNumb += 1
             if not Gene: # if the Gene hash is empty
@@ -162,7 +167,7 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
             else: # if the hash is not empty but the current gene is not in it
                 Gene = str(Gene) + "_" + str(InputSubset['Gene'].iloc[instance]) # concatenate the old gene id with the new one
                 GenesNumb += 1
-                if not Flags: # if the flags hash is empty
+                if Flags == "None": # if the flags hash is empty
                     Flags = "DifferentGenes" # add the flag for different genes
                 elif "DifferentGenes" in Flags: # if flags is not empty but this item is already there
                     # do nothing
@@ -232,7 +237,6 @@ for transcript_name in UniqTranscripts: # for each uniq transcript:
                   "\t" + str(reads_recorder[InputSubset['ReadName'].iloc[0]]) + #transcript sequence
                   "\n") # prints all important things to the output
 
-#outputz.write("tTranscrip\tSize\tGene\tMullerElement\tChrm!*\tChrmStart-End\tExonIntronSeq\tEITranscStarts-Ends\tEIChrmStarts-Ends!*\tAgeZhang\tAgeAssis\tChromatinColour\tCellTypeOfColour\tUniqID\t#Genes\t#Exons\t#Introns\tFlags\tSequence\n")# open output and print header
 # close every used file
 outputz.close()# close output
 log.close() # closes log
